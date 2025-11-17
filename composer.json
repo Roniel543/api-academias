@@ -1,0 +1,17 @@
+{
+    "name": "semana13/proyecto",
+    "description": "Proyecto semana 13",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Usuario",
+            "email": "usuario@example.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}
