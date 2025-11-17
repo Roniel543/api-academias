@@ -1,4 +1,4 @@
-FROM php:8.2-apache
+FROM php:8.2-cli
 
 # Instalar extensiones de PostgreSQL
 RUN apt-get update && apt-get install -y \
@@ -19,18 +19,8 @@ COPY . .
 # Instalar dependencias
 RUN composer install --no-dev --optimize-autoloader
 
-# Habilitar mod_rewrite para Apache
-RUN a2enmod rewrite
+# Exponer puerto (Render lo maneja automáticamente)
+EXPOSE 10000
 
-# Configurar Apache para usar index.php
-RUN echo '<Directory /var/www/html>' > /etc/apache2/conf-available/docker-php.conf \
-    && echo '  Options Indexes FollowSymLinks' >> /etc/apache2/conf-available/docker-php.conf \
-    && echo '  AllowOverride All' >> /etc/apache2/conf-available/docker-php.conf \
-    && echo '  Require all granted' >> /etc/apache2/conf-available/docker-php.conf \
-    && echo '</Directory>' >> /etc/apache2/conf-available/docker-php.conf \
-    && a2enconf docker-php
-
-EXPOSE 80
-
-CMD ["apache2-foreground"]
-
+# Usar el servidor PHP embebido con puerto dinámico
+CMD php -S 0.0.0.0:$PORT -t .
